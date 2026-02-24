@@ -45,8 +45,13 @@ app.get('/health', (req, res) => {
   res.json({ ok: true, message: 'Backend is running' });
 });
 
+app.get('/api/health', (req, res) => {
+  res.json({ ok: true, message: 'Backend is running' });
+});
+
 app.use('/webhooks', webhookRoutes);
 
+// Stripe webhook must be mounted before express.json() so it receives raw body for signature verification.
 app.use('/api/stripe', stripeWebhookRoutes);
 
 app.use(express.json({ limit: '100kb' }));
