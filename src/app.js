@@ -15,6 +15,7 @@ const billingRoutes = require('./routes/billing.routes');
 const webhookRoutes = require('./routes/webhook.routes');
 const checkoutRoutes = require('./routes/checkout.routes');
 const stripeWebhookRoutes = require('./routes/stripe-webhook.routes');
+const { handleStripeWebhook } = require('./routes/stripe-webhook.routes');
 const orderService = require('./services/order.service');
 const { auth } = require('./middleware/auth');
 const authService = require('./services/auth.service');
@@ -52,6 +53,7 @@ app.get('/api/health', (req, res) => {
 app.use('/webhooks', webhookRoutes);
 
 // Stripe webhook must be mounted before express.json() so it receives raw body for signature verification.
+app.post('/api/webhook', express.raw({ type: 'application/json' }), handleStripeWebhook);
 app.use('/api/stripe', stripeWebhookRoutes);
 
 app.use(express.json({ limit: '100kb' }));

@@ -13,6 +13,9 @@ export function Navigation({ page, setPage }: NavigationProps) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const { totalItems } = useCart();
+  const goToAccount = () => {
+    window.location.href = 'https://shopify.com/78718927061/account';
+  };
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40);
@@ -74,11 +77,19 @@ export function Navigation({ page, setPage }: NavigationProps) {
         ASCEND
       </button>
 
-      {/* Right - Cart */}
-      <CartIcon 
-        count={totalItems} 
-        onClick={() => handleNavClick('Cart')}
-      />
+      {/* Right - Account + Cart */}
+      <div className="flex items-center gap-4">
+        <button
+          onClick={goToAccount}
+          className="hidden lg:block text-sm font-medium tracking-wide text-gray-400 hover:text-[#D4A574] transition-all"
+        >
+          My Account
+        </button>
+        <CartIcon
+          count={totalItems}
+          onClick={() => handleNavClick('Cart')}
+        />
+      </div>
 
       {/* Mobile Menu Overlay */}
       {menuOpen && (
@@ -101,6 +112,13 @@ export function Navigation({ page, setPage }: NavigationProps) {
               {link}
             </button>
           ))}
+          <button
+            onClick={goToAccount}
+            className="text-2xl font-medium text-white hover:text-[#D4A574] transition-all"
+            style={{ fontFamily: 'var(--header)' }}
+          >
+            My Account
+          </button>
         </div>
       )}
     </nav>
